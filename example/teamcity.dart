@@ -1,17 +1,17 @@
-import "package:services-client/client.dart" as client;
+import "package:services-client/client.dart";
 
 void main() {
-  client.serverUrl = "http://services.directcode.org";
-  print("Version Information");
-  client.getTeamCityVersion().then((ver) {
+  var sc = new ServicesClient();
+  sc.getTeamCityVersion().then((ver) {
+    print("Version Information");
     print(ver.full_version);
     print(ver.major);
     print(ver.minor);
     print(ver.build_number);
     print(ver.build_date);
   });
-  print("Project Information");
-  client.getTeamCityProjects().then((projects) {
+  sc.getTeamCityProjects().then((projects) {
+    print("Project Information");
     projects.forEach((project) {
       print("${project.name} ${project.name} ${project.url} ${project.description}");
     });

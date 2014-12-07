@@ -1,8 +1,8 @@
-import "package:services-client/client.dart" as client;
+import "package:services-client/client.dart";
 
 void main() {
-  client.serverUrl = "http://services.directcode.org";
-  client.getRandomZen().then((zen) {
+  var sc = new ServicesClient();
+  sc.getRandomZen().then((zen) {
     print(zen);
   });
 }

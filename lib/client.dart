@@ -9,10 +9,8 @@ import "package:json_object/json_object.dart";
 part "src/utils/http.dart";
 
 // APIs
-part "src/api/members.dart";
 part "src/api/projects.dart";
 part "src/api/teamcity.dart";
-part "src/api/quotes.dart";
-part "src/api/zen.dart";
 
-String serverUrl;
+// Classes
+part "src/api/common.dart";

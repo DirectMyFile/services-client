@@ -1,8 +1,8 @@
-import "package:services-client/client.dart" as client;
+import "package:services-client/client.dart";
 
 void main() {
-  client.serverUrl = "http://services.directcode.org";
-  client.getMembers().then((members) {
+  var sc = new ServicesClient();
+  sc.getMembers().then((members) {
     print(members);
   });
 }
