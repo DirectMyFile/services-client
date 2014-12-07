@@ -8,9 +8,25 @@ class ServicesClient {
   ServicesClient({String serverUrl: "http://services.directcode.org", String token})
       : serverUrl = serverUrl,
         token = token;
+
+  void addProject(Project project) {
+    postJson("${serverUrl}/api/projects/add", JSON.encode(project), token: token);
+  }
+
+  void removeProject(ProjectDescriptor project) {
+    postJson("${serverUrl}/api/projects/remove", JSON.encode(project), token: token);
+  }
+
+  void addMember(Member member) {
+    postJson("${serverUrl}/api/members/add", JSON.encode(member), token: token);
+  }
+
+  void removeMember(Member member) {
+    postJson("${serverUrl}/api/members/remove", JSON.encode(member), token: token);
+  }
   
   Future<List<Project>> getProjects() {
-    return downloadFile("${serverUrl}/api/projects/list").then((response) {
+    return get("${serverUrl}/api/projects/list").then((response) {
       String body = response.body;
       List<Project> projects = new ProjectImpl.fromJsonString(body);
       return projects;
@@ -18,7 +34,7 @@ class ServicesClient {
   }
 
   Future<List<dynamic>> getMembers() {
-    return downloadFile("${serverUrl}/api/members/list").then((response) {
+    return get("${serverUrl}/api/members/list").then((response) {
       String body = response.body;
       List<dynamic> rawMembers = JSON.decode(body);
       List<String> members = [];
@@ -30,21 +46,35 @@ class ServicesClient {
   }
 
   Future<String> getRandomQuote() {
-    return downloadFile("${serverUrl}/api/quote").then((response) {
+    return get("${serverUrl}/api/quote").then((response) {
       String body = response.body;
       return JSON.decode(body)["quote"];
     });
   }
 
   Future<String> getRandomZen() {
-    return downloadFile("${serverUrl}/api/zen").then((response) {
+    return get("${serverUrl}/api/zen").then((response) {
       String body = response.body;
       return JSON.decode(body)["zen"];
     });
   }
 
+  Future<String> getHostname() {
+    return get("${serverUrl}/api/internal/server", token: token).then((response) {
+      String body = response.body;
+      return JSON.decode(body)["hostname"];
+    });
+  }
+
+  Future<String> getDartVersion() {
+    return get("${serverUrl}/api/internal/server", token: token).then((response) {
+      String body = response.body;
+      return JSON.decode(body)["vm"]["version"];
+    });
+  }
+
   Future<TeamCityVersion> getTeamCityVersion() {
-    return downloadFile("${serverUrl}/api/teamcity/version").then((response) {
+    return get("${serverUrl}/api/teamcity/version").then((response) {
       String body = response.body;
       TeamCityVersion ver = new TeamCityVersionImpl.fromJsonString(body);
       return ver;
@@ -52,7 +82,7 @@ class ServicesClient {
   }
 
   Future<List<TeamCityProject>> getTeamCityProjects() {
-    return downloadFile("${serverUrl}/api/teamcity/projects").then((response) {
+    return get("${serverUrl}/api/teamcity/projects").then((response) {
       String body = response.body;
       List<TeamCityProject> projects = new TeamCityProjectImpl.fromJsonString(body);
       return projects;

@@ -1,7 +1,19 @@
 part of directcode.services.client.api;
 
-abstract class Project {
-  String id;
+class ProjectDescriptor {
+  String name;
+}
+
+class ProjectDescriptorImpl extends JsonObject implements Project {
+  ProjectDescriptorImpl();
+
+  factory ProjectDescriptorImpl.fromJsonString(string) {
+    return new JsonObject.fromJsonString(string, new ProjectDescriptorImpl());
+  }
+}
+
+class Project {
+  String _id;
   String name;
   String description;
   String url;
