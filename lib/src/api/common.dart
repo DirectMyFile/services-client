@@ -89,4 +89,28 @@ class ServicesClient {
     });
   }
 
+  Future<List<StorageEntry>> listStorageEntries() {
+    return get("${serverUrl}/api/storage/list", token: token).then((response) {
+      String body = response.body;
+      List<StorageEntry> entries = JSON.decode(body);
+      return entries;
+    });
+  }
+
+  Future<String> getStorageValue(String key) {
+    return get("${serverUrl}/api/storage/get?key=${key}", token: token).then((response) {
+      String body = response.body;
+      return JSON.decode(body)["value"];
+    });
+  }
+
+  void putStorageValue(String key, String value) {
+    var data = JSON.encode({"key": key, "value": value});
+    print(data);
+    postJson("${serverUrl}/api/storage/put", JSON.encode(data), token: token).then((response) {
+      print(response.body);
+      print(response.statusCode);
+    });
+  }
+
 }

@@ -11,6 +11,7 @@ part "src/utils/http.dart";
 // APIs
 part "src/api/members.dart";
 part "src/api/projects.dart";
+part "src/api/storage.dart";
 part "src/api/teamcity.dart";
 
 // Classes
